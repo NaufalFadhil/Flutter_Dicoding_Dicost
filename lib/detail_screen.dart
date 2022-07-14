@@ -1,21 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'dart:math';
 
+import 'package:flutter/material.dart';
+import 'package:dicost/model/cost_data.dart';
 
 class DetailScreen extends StatelessWidget {
-  const DetailScreen({Key? key}) : super(key: key);
+  final CostData cost;
+
+  DetailScreen({
+    required this.cost
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('DICOST Salemba'),
+          title: Text('${cost.name}'),
           actions: [
-            IconButton(
-              icon: Icon(Icons.favorite),
-              tooltip: 'Add to Favorite',
-              onPressed: () {},
-            ),
+            FavoriteButton()
           ]
         ),
         body: SafeArea(
@@ -28,95 +29,178 @@ class DetailScreen extends StatelessWidget {
                   height: 245,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
-                    children: [
-                      Padding(
+                    children: cost.imageAssets.map((imageAsset) {
+                      return Padding(
                         padding: EdgeInsets.all(4.0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.asset('images/salemba-1.jpg'),
+                          child: Image.asset(imageAsset),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset('images/salemba-2.jpg'),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset('images/salemba-3.jpg'),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset('images/salemba-4.jpg'),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset('images/salemba-5.jpg'),
-                        ),
-                      ),
-                    ],
+                      );
+                    }).toList()
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          Icon(
-                              Icons.location_on
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Card(
+                        elevation: 3,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                children: [
+                                  Icon(
+                                      Icons.location_on
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  Text(cost.location)
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Icon(
+                                      Icons.location_city
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  Text(cost.city)
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Icon(
+                                      Icons.bed
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  Text('${cost.availability} Available')
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Icon(
+                                      Icons.monetization_on
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  Text('Rp ' + cost.price)
+                                ],
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 8.0),
-                          Text('Salemba')
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Icon(
-                              Icons.location_city
-                          ),
-                          SizedBox(height: 8.0),
-                          Text('Jakarta')
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Icon(
-                              Icons.bed
-                          ),
-                          SizedBox(height: 8.0),
-                          Text('2 Available')
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Icon(
-                              Icons.monetization_on
-                          ),
-                          SizedBox(height: 8.0),
-                          Text('Rp 2.400.000')
-                        ],
-                      ),
-                    ],
-                  ),
+                        )
+                    ),
+                  )
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 16, bottom: 8, right: 16, top: 8),
                   child: Text(
-                    'Moderen dan juga minimalis adalah ungkapan yang paling cocok untuk menggambarkan bangunan kost ini. Desainnya yang trendy dan dilengkapi dengan tanaman hijau menghadirkan suasana ketenangan dan kenyamanan. Kost eksklusif ini memiliki segalanya, mulai dari lift, dapur dan ruang makan, area umum, bahkan rooftop.',
+                    cost.description,
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontSize: 16.0),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text("Fasilitas:", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                ),
+                Container(
+                  height: 95,
+                  child: Card(
+                    margin: EdgeInsets.all(16),
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                              children: [
+                                Icon(
+                                    Icons.security
+                                ),
+                                Text('Keamanan')
+                              ]
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Icon(
+                                  Icons.desk
+                              ),
+                              Text('Meja Belajar')
+                            ]
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                              children: [
+                                Icon(
+                                    Icons.garage
+                                ),
+                                Text('Tempat Parkir')
+                              ]
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                              children: [
+                                Icon(
+                                    Icons.shower
+                                ),
+                                Text('Kamar Mandi')
+                              ]
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                              children: [
+                                Icon(
+                                    Icons.tv
+                                ),
+                                Text('Televisi')
+                              ]
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                              children: [
+                                Icon(
+                                    Icons.wifi
+                                ),
+                                Text('Wi-Fi')
+                              ]
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                              children: [
+                                Icon(
+                                    Icons.kitchen
+                                ),
+                                Text('Dapur')
+                              ]
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                              children: [
+                                Icon(
+                                    Icons.local_laundry_service
+                                ),
+                                Text('Laundry')
+                              ]
+                          ),
+                        ),
+                      ]
+                    ),
                   ),
                 ),
                 Container(
@@ -128,10 +212,37 @@ class DetailScreen extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurpleAccent),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
+        )
+    );
+  }
+}
+
+
+class FavoriteButton extends StatefulWidget {
+  const FavoriteButton({Key? key}) : super(key: key);
+
+  @override
+  State<FavoriteButton> createState() => _FavoriteButtonState();
+}
+
+class _FavoriteButtonState extends State<FavoriteButton> {
+  bool isFavorite = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          setState(() {
+            isFavorite = !isFavorite;
+          });
+        },
+        icon: Icon(
+          isFavorite ? Icons.favorite : Icons.favorite_border,
+          color: Colors.white,
         )
     );
   }
