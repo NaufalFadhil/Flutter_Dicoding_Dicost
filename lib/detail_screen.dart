@@ -12,12 +12,33 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constrains) {
+          if(constrains.maxWidth <= 700) {
+            return DetailMobileScreen(cost: cost);
+          } else {
+            return DetailMobileScreen(cost: cost);
+          }
+        },
+    );
+  }
+}
+
+class DetailMobileScreen extends StatelessWidget {
+  final CostData cost;
+
+  DetailMobileScreen({
+    required this.cost
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('${cost.name}'),
-          actions: [
-            FavoriteButton()
-          ]
+            title: Text('${cost.name}'),
+            actions: [
+              FavoriteButton()
+            ]
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -28,69 +49,69 @@ class DetailScreen extends StatelessWidget {
                   margin: EdgeInsets.all(8),
                   height: 245,
                   child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: cost.imageAssets.map((imageAsset) {
-                      return Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(imageAsset),
-                        ),
-                      );
-                    }).toList()
+                      scrollDirection: Axis.horizontal,
+                      children: cost.imageAssets.map((imageAsset) {
+                        return Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(imageAsset),
+                          ),
+                        );
+                      }).toList()
                   ),
                 ),
                 Container(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Card(
-                        elevation: 3,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                children: [
-                                  Icon(
-                                      Icons.location_on
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  Text(cost.location)
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Icon(
-                                      Icons.location_city
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  Text(cost.city)
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Icon(
-                                      Icons.bed
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  Text('${cost.availability} Available')
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Icon(
-                                      Icons.monetization_on
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  Text('Rp ' + cost.price)
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
-                    ),
-                  )
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Card(
+                          elevation: 3,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  children: [
+                                    Icon(
+                                        Icons.location_on
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    Text(cost.location)
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Icon(
+                                        Icons.location_city
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    Text(cost.city)
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Icon(
+                                        Icons.bed
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    Text('${cost.availability} Available')
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Icon(
+                                        Icons.monetization_on
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    Text('Rp ' + cost.price)
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                      ),
+                    )
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 16, bottom: 8, right: 16, top: 8),
@@ -109,97 +130,97 @@ class DetailScreen extends StatelessWidget {
                   child: Card(
                     margin: EdgeInsets.all(16),
                     child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                              children: [
-                                Icon(
-                                    Icons.security
-                                ),
-                                Text('Keamanan')
-                              ]
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                                children: [
+                                  Icon(
+                                      Icons.security
+                                  ),
+                                  Text('Keamanan')
+                                ]
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Icon(
-                                  Icons.desk
-                              ),
-                              Text('Meja Belajar')
-                            ]
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                                children: [
+                                  Icon(
+                                      Icons.desk
+                                  ),
+                                  Text('Meja Belajar')
+                                ]
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                              children: [
-                                Icon(
-                                    Icons.garage
-                                ),
-                                Text('Tempat Parkir')
-                              ]
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                                children: [
+                                  Icon(
+                                      Icons.garage
+                                  ),
+                                  Text('Tempat Parkir')
+                                ]
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                              children: [
-                                Icon(
-                                    Icons.shower
-                                ),
-                                Text('Kamar Mandi')
-                              ]
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                                children: [
+                                  Icon(
+                                      Icons.shower
+                                  ),
+                                  Text('Kamar Mandi')
+                                ]
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                              children: [
-                                Icon(
-                                    Icons.tv
-                                ),
-                                Text('Televisi')
-                              ]
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                                children: [
+                                  Icon(
+                                      Icons.tv
+                                  ),
+                                  Text('Televisi')
+                                ]
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                              children: [
-                                Icon(
-                                    Icons.wifi
-                                ),
-                                Text('Wi-Fi')
-                              ]
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                                children: [
+                                  Icon(
+                                      Icons.wifi
+                                  ),
+                                  Text('Wi-Fi')
+                                ]
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                              children: [
-                                Icon(
-                                    Icons.kitchen
-                                ),
-                                Text('Dapur')
-                              ]
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                                children: [
+                                  Icon(
+                                      Icons.kitchen
+                                  ),
+                                  Text('Dapur')
+                                ]
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                              children: [
-                                Icon(
-                                    Icons.local_laundry_service
-                                ),
-                                Text('Laundry')
-                              ]
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                                children: [
+                                  Icon(
+                                      Icons.local_laundry_service
+                                  ),
+                                  Text('Laundry')
+                                ]
+                            ),
                           ),
-                        ),
-                      ]
+                        ]
                     ),
                   ),
                 ),
