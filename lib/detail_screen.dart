@@ -14,10 +14,10 @@ class DetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constrains) {
-          if(constrains.maxWidth <= 700) {
+          if(constrains.maxWidth <= 1000) {
             return DetailMobileScreen(cost: cost);
           } else {
-            return DetailMobileScreen(cost: cost);
+            return DetailWebScreen(cost: cost);
           }
         },
     );
@@ -242,6 +242,289 @@ class DetailMobileScreen extends StatelessWidget {
   }
 }
 
+class DetailWebScreen extends StatefulWidget {
+  final CostData cost;
+
+  DetailWebScreen({
+    required this.cost
+  });
+
+  @override
+  State<DetailWebScreen> createState() => _DetailWebScreenState();
+}
+
+class _DetailWebScreenState extends State<DetailWebScreen> {
+  final _scrollController = ScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+            title: Text('${widget.cost.name}'),
+            actions: [
+              FavoriteButton()
+            ]
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 32
+          ),
+          child: Center(
+            child: Container(
+              width: 1200,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      widget.cost.name,
+                      style: TextStyle(
+                        fontSize: 32
+                      )
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                          child: Column(
+                          children: [
+                            Column(
+                              children: [
+                                Scrollbar(
+                                  isAlwaysShown: true,
+                                  controller: _scrollController,
+                                  child: Container(
+                                      height: 400,
+                                      padding: EdgeInsets.only(bottom: 16),
+                                      child: ListView(
+                                        controller: _scrollController,
+                                        scrollDirection: Axis.horizontal,
+                                        children: widget.cost.imageAssets.map((imageAsset) {
+                                          return Padding(
+                                            padding: EdgeInsets.all(4.0),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(10),
+                                              child: Image.asset(imageAsset),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    )
+                                )
+                              ],
+                            ),
+                          ],
+                        )
+                      ),
+                      SizedBox(width: 32),
+                      Expanded(
+                          child: Card(
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      widget.cost.name,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 12.0),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Icon(Icons.location_on),
+                                          SizedBox(height: 8.0),
+                                          Text(
+                                              widget.cost.location
+                                          )
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Icon(Icons.location_city),
+                                          SizedBox(height: 8.0),
+                                          Text(
+                                              widget.cost.city
+                                          )
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Icon(Icons.bed),
+                                          SizedBox(height: 8.0),
+                                          Text(
+                                              "${widget.cost.availability} Available"
+                                          )
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Icon(Icons.monetization_on),
+                                          SizedBox(height: 8.0),
+                                          Text(
+                                              widget.cost.price
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 4.0),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                                    child: Text(
+                                      widget.cost.description,
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                        fontSize: 16.0
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Text(
+                                      "Fasilitas",
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                            children: [
+                                              Icon(
+                                                  Icons.desk
+                                              ),
+                                              Text('Meja Belajar')
+                                            ]
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                            children: [
+                                              Icon(
+                                                  Icons.garage
+                                              ),
+                                              Text('Tempat Parkir')
+                                            ]
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                            children: [
+                                              Icon(
+                                                  Icons.shower
+                                              ),
+                                              Text('Kamar Mandi')
+                                            ]
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                            children: [
+                                              Icon(
+                                                  Icons.security
+                                              ),
+                                              Text('Keamanan')
+                                            ]
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                            children: [
+                                              Icon(
+                                                  Icons.tv
+                                              ),
+                                              Text('Televisi')
+                                            ]
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                            children: [
+                                              Icon(
+                                                  Icons.wifi
+                                              ),
+                                              Text('Wi-Fi')
+                                            ]
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                            children: [
+                                              Icon(
+                                                  Icons.kitchen
+                                              ),
+                                              Text('Dapur')
+                                            ]
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                            children: [
+                                              Icon(
+                                                  Icons.local_laundry_service
+                                              ),
+                                              Text('Laundry')
+                                            ]
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  ConstrainedBox(
+                                    constraints: const BoxConstraints(minWidth: double.infinity),
+                                    child: ElevatedButton(
+                                      onPressed: () {},
+                                      child: Text('Book Room'),
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurpleAccent),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        )
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+}
 
 class FavoriteButton extends StatefulWidget {
   const FavoriteButton({Key? key}) : super(key: key);
